@@ -1,6 +1,9 @@
 import axios from 'axios'
 
-const api = axios.create({ baseURL: '/api', timeout: 20000 })
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || '/api',
+  timeout: 20000
+})
 
 api.interceptors.request.use(cfg => {
   const token = localStorage.getItem('kk_token')
@@ -30,20 +33,20 @@ export const authAPI = {
 export const dashAPI     = { stats: () => api.get('/dashboard/stats') }
 
 export const clientsAPI  = {
-  list:   p  => api.get('/clients', { params: p }),
-  get:    id => api.get(`/clients/${id}`),
-  create: d  => api.post('/clients', d),
+  list:   p       => api.get('/clients', { params: p }),
+  get:    id      => api.get(`/clients/${id}`),
+  create: d       => api.post('/clients', d),
   update: (id, d) => api.put(`/clients/${id}`, d),
-  delete: id => api.delete(`/clients/${id}`),
+  delete: id      => api.delete(`/clients/${id}`),
 }
 
 export const invoicesAPI = {
-  list:      p  => api.get('/invoices', { params: p }),
-  get:       id => api.get(`/invoices/${id}`),
-  create:    d  => api.post('/invoices', d),
-  update:    (id, d) => api.put(`/invoices/${id}`, d),
+  list:      p            => api.get('/invoices', { params: p }),
+  get:       id           => api.get(`/invoices/${id}`),
+  create:    d            => api.post('/invoices', d),
+  update:    (id, d)      => api.put(`/invoices/${id}`, d),
   setStatus: (id, status) => api.patch(`/invoices/${id}/status`, { status }),
-  delete:    id => api.delete(`/invoices/${id}`),
+  delete:    id           => api.delete(`/invoices/${id}`),
 }
 
 export const paymentsAPI = {
@@ -53,19 +56,19 @@ export const paymentsAPI = {
 }
 
 export const productsAPI = {
-  list:   p  => api.get('/products', { params: p }),
-  create: d  => api.post('/products', d),
+  list:   p       => api.get('/products', { params: p }),
+  create: d       => api.post('/products', d),
   update: (id, d) => api.put(`/products/${id}`, d),
-  delete: id => api.delete(`/products/${id}`),
+  delete: id      => api.delete(`/products/${id}`),
 }
 
 export const expensesAPI = {
-  list:   p  => api.get('/expenses', { params: p }),
-  create: d  => api.post('/expenses', d),
+  list:   p       => api.get('/expenses', { params: p }),
+  create: d       => api.post('/expenses', d),
   update: (id, d) => api.put(`/expenses/${id}`, d),
-  delete: id => api.delete(`/expenses/${id}`),
+  delete: id      => api.delete(`/expenses/${id}`),
 }
 
-export const reportsAPI  = { summary: y => api.get('/reports/summary', { params: { year: y } }) }
+export const reportsAPI = { summary: y => api.get('/reports/summary', { params: { year: y } }) }
 
 export default api
